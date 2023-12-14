@@ -1,24 +1,16 @@
 import {useEffect, useState} from "react";
 
-function ListUniqueNumber({limit, numbers, setNumbers}){
+function ListUniqueNumber({limit, state, dispatch}) {
     const [canAddNumber, setCanAddNumber] = useState(true);
-    useEffect(() => setCanAddNumber(numbers.length < limit), [numbers])
-
-    const addUniqueNumber = () => {
-        let rand;
-        do {
-            rand = Math.floor(Math.random() * 50);
-        }
-        while (numbers.includes(rand))
-
-        setNumbers([...numbers, rand]);
-    }
+    useEffect(() => setCanAddNumber(state.numbers.length < limit), [state.numbers])
 
     return (
         <div id={'listNumber'}>
-            <button onClick={() => addUniqueNumber()} disabled={!canAddNumber}>Ajouter un nombre unique</button>
-            <p>{numbers.join(' | ')}</p>
-            {numbers.length === limit && <p id={'errorLimite'}>Limite atteinte.</p>}
+            <button onClick={() => dispatch({type: 'AddUniqueNumber'})} disabled={!canAddNumber}>
+                Ajouter un nombre unique
+            </button>
+            <p>{state.numbers.join(' | ')}</p>
+            {state.numbers.length === limit && <p id={'errorLimite'}>Limite atteinte.</p>}
         </div>
     )
 }
